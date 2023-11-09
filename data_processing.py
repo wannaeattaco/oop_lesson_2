@@ -152,3 +152,36 @@ for item in my_table2.table:
     if len(my_table1_filtered.table) >= 1:
         print(item['country'], my_table1_filtered.aggregate(lambda x: min(x), 'latitude'), my_table1_filtered.aggregate(lambda x: max(x), 'latitude'))
 print()
+
+print('#1: What player on a team with “ia” in the team name played less than 200 minutes and made more than 100 passes? Select to display the player surname, team, and position')
+print()
+#
+filtered_players = table3.filter(lambda x: 'ia' in x['team'] and int(x['minutes']) < 200 and int(x['passes']) > 100)
+selected_players = filtered_players.select(['surname', 'team', 'position'])
+
+for player in selected_players:
+    print(player)
+
+print()
+print('#2: The average number of games played for teams ranking below 10 versus teams ranking above or equal 10')
+print()
+teams_below_10 = table4.filter(lambda x: int(x['ranking']) < 10)
+teams_above_10 = table4.filter(lambda x: int(x['ranking']) >= 10)
+
+average_games_below_10 = teams_below_10.aggregate(lambda x: sum(x) / len(x), 'games')
+average_games_above_10 = teams_above_10.aggregate(lambda x: sum(x) / len(x), 'games')
+
+print("Average number of games played for teams below 10:", average_games_below_10)
+print("Average number of games played for teams above or equal to 10:", average_games_above_10)
+
+print()
+print('#3: The average number of passes made by forwards versus by midfielders')
+print()
+
+passes_by_forward = table3.filter(lambda x: x['position'] == 'forward')
+passes_by_midfielder = table3.filter(lambda x: x['position'] == 'midfielder')
+average_pass_forward = passes_by_forward.aggregate(lambda x: sum(x) / len(x), 'passes')
+average_pass_midfield = passes_by_midfielder.aggregate(lambda x: sum(x) / len(x), 'passes')
+
+print("Average number of passes made by forwards", average_pass_forward)
+print("Average number of passes made by midfielders", average_pass_midfield)
