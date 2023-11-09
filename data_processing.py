@@ -221,3 +221,12 @@ survival_female = (survived_female / len(female.table))*100
 
 print("Survival rate for male passengers:", survival_male)
 print("Survival rate for female passengers:", survival_female)
+
+
+print("Find the total number of male passengers embarked at Southampton")
+embarked = 0
+for item in male.table:
+    if item["embarked"] == "Southampton":
+        embarked += 1
+
+print(f"Number of Male passengers embarked at Southampton is {embarked}")
