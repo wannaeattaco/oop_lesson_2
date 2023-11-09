@@ -17,10 +17,18 @@ def gen_comb_list(list_set):
     >>> gen_comb_list([[1, 2, 3], [4, 5], [6, 7, 8]])
     [[1, 4, 6], [2, 4, 6], [3, 4, 6], [1, 5, 6], [2, 5, 6], [3, 5, 6], [1, 4, 7], [2, 4, 7], [3, 4, 7], [1, 5, 7], [2, 5, 7], [3, 5, 7], [1, 4, 8], [2, 4, 8], [3, 4, 8], [1, 5, 8], [2, 5, 8], [3, 5, 8]]
     '''
-    # main_lst = []
-    sub_lst = []
-    for i in list_set:
-        for j in i:
-            sub_lst.append([j])
-        # main_lst.append(sub_lst)
-    return sub_lst
+
+    if len(list_set) == 0:
+        return []
+    if len(list_set) == 1:
+        return [[x] for x in list_set[0]]
+
+    result = [[]]
+    for sublst in list_set:
+        new_result = []
+        for element in sublst:
+            for r in result:
+                new_result.append(r + [element])
+        result = new_result
+
+    return result
