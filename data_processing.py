@@ -1,4 +1,5 @@
 import csv, os
+import copy
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -33,6 +34,7 @@ with open(os.path.join(__location__, 'Titanic.csv')) as f:
     for r in rows:
         titanic.append(dict(r))
 
+
 class DB:
     def __init__(self):
         self.database = []
@@ -45,9 +47,6 @@ class DB:
             if table.table_name == table_name:
                 return table
         return None
-
-
-import copy
 
 
 class Table:
@@ -222,11 +221,14 @@ survival_female = (survived_female / len(female.table))*100
 print("Survival rate for male passengers:", survival_male)
 print("Survival rate for female passengers:", survival_female)
 
-
-print("Find the total number of male passengers embarked at Southampton")
-embarked = 0
-for item in male.table:
-    if item["embarked"] == "Southampton":
-        embarked += 1
-
-print(f"Number of Male passengers embarked at Southampton is {embarked}")
+print()
+print('#: Find the total number of male passengers embarked at Southampton')
+print()
+male = table5.filter(lambda x: x['gender'] == 'M')
+embarked_male = male.filter(lambda x: x['embarked'] == 'Southampton')
+print(len(embarked_male.table))
+embarked_count = 0
+for item in embarked_male.table:
+    if item['embarked'] == 'Southampton':
+        embarked_count += 1
+print(embarked_count)
