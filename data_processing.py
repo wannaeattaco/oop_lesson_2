@@ -1,5 +1,5 @@
 import csv, os
-
+import copy
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
@@ -46,9 +46,6 @@ class DB:
             if table.table_name == table_name:
                 return table
         return None
-
-
-import copy
 
 
 class Table:
@@ -121,14 +118,14 @@ my_table1_selected = my_table1_filtered.select(['city', 'latitude'])
 print(my_table1_selected)
 print()
 
-print("Calculting the average temperature without using aggregate for cities in Italy")
+print("Calculating the average temperature without using aggregate for cities in Italy")
 temps = []
 for item in my_table1_filtered.table:
     temps.append(float(item['temperature']))
 print(sum(temps)/len(temps))
 print()
 
-print("Calculting the average temperature using aggregate for cities in Italy")
+print("Calculating the average temperature using aggregate for cities in Italy")
 print(my_table1_filtered.aggregate(lambda x: sum(x)/len(x), 'temperature'))
 print()
 
@@ -209,7 +206,7 @@ print('#: The survival rate of male versus female passengers')
 print()
 male = table5.filter(lambda x: x['gender'] == 'M')
 female = table5.filter(lambda x: x['gender'] == 'F')
-#
+
 survived_male = 0
 for item in male.table:
     if item['survived'] == 'yes':
@@ -225,3 +222,17 @@ survival_female = (survived_female / len(female.table))*100
 
 print("Survival rate for male passengers:", survival_male)
 print("Survival rate for female passengers:", survival_female)
+
+
+print()
+print('Find the total number of male passengers embarked at Southampton')
+print()
+
+embarked_male = male.filter(lambda x: x['embarked'] == 'Southampton')
+print(len(embarked_male.table))
+embarked_count = 0
+for item in embarked_male.table:
+    if item['embarked'] == 'Southampton':
+        embarked_count += 1
+
+print(embarked_count)

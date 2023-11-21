@@ -32,3 +32,6 @@ def gen_comb_list(list_set):
         result = new_result
 
     return result
+
+
+
